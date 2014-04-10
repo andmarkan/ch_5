@@ -2,8 +2,7 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 Backbone.XView = require('backbone.xview');
 
-var SortView = Backbone.XView.extend({
-
+var SortView = Backbone.View.extend({
 
   template: _.template('<p>Sort:</p>             \
               <button id="by_title">By Title</button>          \

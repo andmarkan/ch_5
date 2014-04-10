@@ -20,7 +20,6 @@ var MoviesRouter = Backbone.Router.extend({
     this.movies.resetSelected();
     this.movies.selectByID(id);
     this.layout.setDetails(this.movies.get(id));
-    console.log(this.layout);
   },
 
   showMain: function() {
@@ -34,7 +33,6 @@ var MoviesRouter = Backbone.Router.extend({
       el: '#movies', router: this
     });
     this.layout.render();
-    this.listenTo(this.movies, 'all', function(ev) { console.log(ev) });
   }
 });
 module.exports = MoviesRouter;
