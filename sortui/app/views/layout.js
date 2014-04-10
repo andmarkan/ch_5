@@ -12,16 +12,16 @@ var Controls = require('views/sort');
 var Layout = Backbone.XView.extend({
 
   template: _.template('           \
-<a href="#">Home</a>       \
-  <nav id="controls">\
-    <button id="by_title">By Title</button>  \
-    <button id="by_rating">By Rating</button>\
-    <button id="by_showtime">By Showtime</button> \
-  </nav>\
-</header>                    \
-             <div id="overview">   \
-             </div>                \
-             <div id="details">    \
+             <a href="#">Home</a>  \
+               <nav id="controls"> \
+                 <button id="by_title">By Title</button>  \
+                 <button id="by_rating">By Rating</button>\
+                 <button id="by_showtime">By Showtime</button> \
+               </nav>             \
+             </header>            \
+             <div id="overview">  \
+             </div>               \
+             <div id="details">   \
              </div>'),
 
   setDetails: function(movie) {

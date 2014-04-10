@@ -161,16 +161,16 @@ var Controls = require('views/sort');
 var Layout = Backbone.XView.extend({
 
   template: _.template('           \
-<a href="#">Home</a>       \
-  <nav id="controls">\
-    <button id="by_title">By Title</button>  \
-    <button id="by_rating">By Rating</button>\
-    <button id="by_showtime">By Showtime</button> \
-  </nav>\
-</header>                    \
-             <div id="overview">   \
-             </div>                \
-             <div id="details">    \
+             <a href="#">Home</a>  \
+               <nav id="controls"> \
+                 <button id="by_title">By Title</button>  \
+                 <button id="by_rating">By Rating</button>\
+                 <button id="by_showtime">By Showtime</button> \
+               </nav>             \
+             </header>            \
+             <div id="overview">  \
+             </div>               \
+             <div id="details">   \
              </div>'),
 
   setDetails: function(movie) {
@@ -290,12 +290,6 @@ Backbone.XView = require('backbone.xview');
 
 var SortView = Backbone.View.extend({
 
-  template: _.template('<p>Sort:</p>             \
-              <button id="by_title">By Title</button>          \
-              <button id="by_rating">By Rating</button>        \
-              <button id="by_showtime">By Showtime</button>    \
-           '),
-
    events: {
      'click #by_title': 'sortByTitle',
      'click #by_rating': 'sortByRating',
@@ -311,7 +305,6 @@ var SortView = Backbone.View.extend({
    },
 
    sortByShowtime: function(ev) {
-     console.log("#");
      this.movies.reset(this.movies.sortByShowtime());
    },
 

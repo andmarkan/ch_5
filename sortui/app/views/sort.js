@@ -4,12 +4,6 @@ Backbone.XView = require('backbone.xview');
 
 var SortView = Backbone.View.extend({
 
-  template: _.template('<p>Sort:</p>             \
-              <button id="by_title">By Title</button>          \
-              <button id="by_rating">By Rating</button>        \
-              <button id="by_showtime">By Showtime</button>    \
-           '),
-
    events: {
      'click #by_title': 'sortByTitle',
      'click #by_rating': 'sortByRating',
@@ -25,7 +19,6 @@ var SortView = Backbone.View.extend({
    },
 
    sortByShowtime: function(ev) {
-     console.log("#");
      this.movies.reset(this.movies.sortByShowtime());
    },
 
