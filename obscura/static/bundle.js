@@ -211,12 +211,13 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 
 var Info = Backbone.View.extend({
-  template: _.template('Total movies: <%= no %>, Page <%= page %> / <%= totalPages %>'),
+  template: _.template('Available movies: <%= shown %> (from <%= no %>) - Page <%= page %> / <%= totalPages %>'),
   render: function() {
     var moviesNo = this.proxy.superset().size(); 
+    var shown = this.proxy.size(); 
     var currentPage = this.proxy.getPage() + 1; 
     var totalPages = this.proxy.getNumPages();
-    this.$el.html(this.template({no: moviesNo, page: currentPage, totalPages: totalPages}));
+    this.$el.html(this.template({no: moviesNo, shown: shown, page: currentPage, totalPages: totalPages}));
     return this;
   },
   initialize: function(options) {
