@@ -138,23 +138,21 @@ var ControlsView = Backbone.View.extend({
      'click #by_title': 'sortByTitle',
      'click #by_rating': 'sortByRating',
      'click #by_showtime': 'sortByShowtime',
-     'change select[name="genre"]': 'selectGenres'
+     'change input[name="genres"]': 'selectGenres'
   },
 
-  filterByCategory: function(genre) {
-    this.collection.filterBy(genre, function(movie) {
-      var genreFound = _.indexOf(movie.get('genres'), genre);
-      return (genreFound != -1);
-    })
-  },
 
-  selectGenres: function(genres) {
+  selectGenres: function(ev) {
     var that = this;
-    _.each([genres], function(genre) {
-      that.filterBy(genre, function(movie) { 
-        var genreFound = _.indexOf(movie.get('genres'), genre);
-        return (genreFound !== -1);
-      });
+    that.proxy.resetFilters();
+    var genres = _.map($("input[type=checkbox]:checked"), function(genre) { 
+      that.proxy.filterBy(genre.value, function(m) {
+        return (_.findWhere(m.get('genres'), genre.value))
+      })
+      // that.proxy.filterBy(genre, function(movie) { 
+      //   var genreFound = _.indexOf(movie.get('genres'), genre.value);
+      //   return (genreFound !== -1);
+      // });
     });
   },
 
@@ -248,17 +246,12 @@ var Layout = Backbone.XView.extend({
                  <button id="by_rating">By Rating</button>\
                  <button id="by_showtime">By Showtime</button> \
                  <p>Filter</p> \
-                 <select name="genre"> \
-                   <option value="all"> \
-                     All \
-                   </option> \
-                   <option value="Drama"> \
+                   <input type="checkbox" name="genres" value="Drama"> \
                      Drama \
-                   </option> \
-                   <option value="Action"> \
+                   </input> \
+                   <input type="checkbox" name="genres" value="Action"> \
                      Action \
-                   </option> \
-                 </select> \
+                   </input> \
                </nav> \
                <span id="info">  \
                </span>               \

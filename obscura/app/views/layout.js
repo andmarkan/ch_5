@@ -23,17 +23,12 @@ var Layout = Backbone.XView.extend({
                  <button id="by_rating">By Rating</button>\
                  <button id="by_showtime">By Showtime</button> \
                  <p>Filter</p> \
-                 <select name="genre"> \
-                   <option value="all"> \
-                     All \
-                   </option> \
-                   <option value="Drama"> \
+                   <input type="checkbox" name="genres" value="Drama"> \
                      Drama \
-                   </option> \
-                   <option value="Action"> \
+                   </input> \
+                   <input type="checkbox" name="genres" value="Action"> \
                      Action \
-                   </option> \
-                 </select> \
+                   </input> \
                </nav> \
                <span id="info">  \
                </span>               \
