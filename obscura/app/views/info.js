@@ -3,7 +3,7 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 
 var Info = Backbone.View.extend({
-  template: _.template('No. of movies: <%= no %>, Page: <%= page %>, Total Page: <%= totalPages %>'),
+  template: _.template('Total movies: <%= no %>, Page <%= page %> / <%= totalPages %>'),
   render: function() {
     var moviesNo = this.proxy.superset().size(); 
     var currentPage = this.proxy.getPage() + 1; 
