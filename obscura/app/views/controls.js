@@ -9,6 +9,8 @@ var ControlsView = Backbone.View.extend({
      'click #by_title': 'sortByTitle',
      'click #by_rating': 'sortByRating',
      'click #by_showtime': 'sortByShowtime',
+     'click #next': 'paginateNext',
+     'click #prev': 'paginatePrev',
      'change input[name="genres"]': 'selectGenres'
   },
 
@@ -27,13 +29,13 @@ var ControlsView = Backbone.View.extend({
     });
   },
 
-  paginate: function(action) {
-    if (action === 'next') {
-      this.proxy.nextPage();
-    }
-    else {
-      this.proxy.prevPage();
-    }
+  paginateNext: function() {
+    this.proxy.nextPage();
+  },
+
+  paginatePrev: function() {
+    console.log("**");
+    this.proxy.prevPage();
   },
 
   sortByTitle: function(ev) {

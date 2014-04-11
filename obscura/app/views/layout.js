@@ -19,6 +19,9 @@ var Layout = Backbone.XView.extend({
              <a href="#">Home</a>  \
                <nav id="controls"> \
                  <p>Sort:</p> \
+                 <button id="prev">Previous</button> \
+                 <button id="next">Next</button> \
+                 <p>Sort:</p> \
                  <button id="by_title">By Title</button>  \
                  <button id="by_rating">By Rating</button>\
                  <button id="by_showtime">By Showtime</button> \
@@ -65,12 +68,13 @@ var Layout = Backbone.XView.extend({
   
   initialize: function(options) {
     this.proxy = new Backbone.Obscura(options.router.movies); 
+    this.proxy.setPerPage(4);
     this.addView('#overview', new MoviesList({
       collection: this.proxy,
       router: options.router
     }));
     this.controls = new Controls({ proxy: this.proxy });
-    this.info = new Info({collection: this.proxy });
+    this.info = new Info({proxy: this.proxy });
   }
 
 });
