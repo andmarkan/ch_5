@@ -138,6 +138,8 @@ var ControlsView = Backbone.View.extend({
      'click #by_title': 'sortByTitle',
      'click #by_rating': 'sortByRating',
      'click #by_showtime': 'sortByShowtime',
+     'click #next': 'paginateNext',
+     'click #prev': 'paginatePrev',
      'change input[name="genres"]': 'selectGenres'
   },
 
@@ -156,13 +158,13 @@ var ControlsView = Backbone.View.extend({
     });
   },
 
-  paginate: function(action) {
-    if (action === 'next') {
-      this.proxy.nextPage();
-    }
-    else {
-      this.proxy.prevPage();
-    }
+  paginateNext: function() {
+    this.proxy.nextPage();
+  },
+
+  paginatePrev: function() {
+    console.log("**");
+    this.proxy.prevPage();
   },
 
   sortByTitle: function(ev) {
@@ -209,13 +211,17 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 
 var Info = Backbone.View.extend({
-  template: _.template('No. of movies: <%= no %>'),
+  template: _.template('No. of movies: <%= no %>, Page: <%= page %>, Total Page: <%= totalPages %>'),
   render: function() {
-    this.$el.html(this.template({no: this.collection.models.length}));
+    var moviesNo = this.proxy.superset().size(); 
+    var currentPage = this.proxy.getPage() + 1; 
+    var totalPages = this.proxy.getNumPages();
+    this.$el.html(this.template({no: moviesNo, page: currentPage, totalPages: totalPages}));
     return this;
   },
-  initialize: function() {
-    this.listenTo(this.collection, 'reset', this.render);
+  initialize: function(options) {
+    this.proxy = options.proxy;
+    this.listenTo(this.proxy, 'reset', this.render);
   }
 });
 module.exports = Info;
@@ -241,6 +247,9 @@ var Layout = Backbone.XView.extend({
              <header>   \
              <a href="#">Home</a>  \
                <nav id="controls"> \
+                 <p>Sort:</p> \
+                 <button id="prev">Previous</button> \
+                 <button id="next">Next</button> \
                  <p>Sort:</p> \
                  <button id="by_title">By Title</button>  \
                  <button id="by_rating">By Rating</button>\
@@ -288,12 +297,13 @@ var Layout = Backbone.XView.extend({
   
   initialize: function(options) {
     this.proxy = new Backbone.Obscura(options.router.movies); 
+    this.proxy.setPerPage(4);
     this.addView('#overview', new MoviesList({
       collection: this.proxy,
       router: options.router
     }));
     this.controls = new Controls({ proxy: this.proxy });
-    this.info = new Info({collection: this.proxy });
+    this.info = new Info({proxy: this.proxy });
   }
 
 });
