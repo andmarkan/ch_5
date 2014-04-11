@@ -1,5 +1,7 @@
 var Backbone = require('backbone');
 Backbone.XView = require('backbone.xview');
+Backbone.Obscura = require('backbone.obscura');
+
 var _ = require('underscore');
 
 var $ = Backbone.$;
@@ -21,17 +23,12 @@ var Layout = Backbone.XView.extend({
                  <button id="by_rating">By Rating</button>\
                  <button id="by_showtime">By Showtime</button> \
                  <p>Filter</p> \
-                 <select name="genre"> \
-                   <option value="all"> \
-                     All \
-                   </option> \
-                   <option value="Drama"> \
+                   <input type="checkbox" name="genres" value="Drama"> \
                      Drama \
-                   </option> \
-                   <option value="Action"> \
+                   </input> \
+                   <input type="checkbox" name="genres" value="Action"> \
                      Action \
-                   </option> \
-                 </select> \
+                   </input> \
                </nav> \
                <span id="info">  \
                </span>               \
@@ -67,13 +64,13 @@ var Layout = Backbone.XView.extend({
   },
   
   initialize: function(options) {
+    this.proxy = new Backbone.Obscura(options.router.movies); 
     this.addView('#overview', new MoviesList({
-      collection: options.router.movies,
+      collection: this.proxy,
       router: options.router
     }));
-    var superset = new Backbone.Collection(options.router.movies.models);
-    this.controls = new Controls({ collection: options.router.movies, superset: superset });
-    this.info = new Info({collection: this.collection});
+    this.controls = new Controls({ proxy: this.proxy });
+    this.info = new Info({collection: this.proxy });
   }
 
 });

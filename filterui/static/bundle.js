@@ -286,11 +286,13 @@ var Layout = Backbone.XView.extend({
   },
   
   initialize: function(options) {
+    console.log("*******");
     this.addView('#overview', new MoviesList({
       collection: options.router.movies,
       router: options.router
     }));
-    var superset = new Backbone.Collection(options.router.movies.toJSON());
+    var superset = new Backbone.Collection(options.router.movies.models);
+    console.log(superset);
     this.controls = new Controls({ collection: options.router.movies, superset: superset });
     this.info = new Info({collection: this.collection});
   }
