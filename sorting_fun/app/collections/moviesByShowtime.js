@@ -1,17 +1,22 @@
-  var Backbone = require('backbone');
-  var _ = require('underscore');
+var Backbone = require('backbone');
+var _ = require('underscore');
+var Movie = require('models/movie');
 
-  var MoviesByShowtime = Backbone.Collection.extend({
 
-     comparator: function(movie) {
-       return movie.get('showtime');
-     },
+var MoviesByShowtime = Backbone.Collection.extend({
 
-     log: function() {
-       _.each(this.toJSON(), function(movie) {
-         var showtime = new Date(movie.showtime * 1000);
-         console.log(movie.title + "   " + showtime.toLocaleString() + "(" + movie.showtime + ")");
-       });
-     }
-   })
-   module.exports = MoviesByShowtime;
+  model: Movie,
+
+   comparator: function(m) {
+     return - m.toShowtimeDate();
+   },
+
+   log: function() {
+     console.log(this.models);
+     this.each(function(movie) {
+       console.log(movie.get('title') + "   " + movie.showtimeToString() + "(" + movie.get('showtime') + ")");
+     });
+   }
+ });
+
+ module.exports = MoviesByShowtime;

@@ -16,7 +16,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   })
   module.exports = MoviesByTitle;
 
-},{"backbone":3,"underscore":5}],"movies":[function(require,module,exports){
+},{"backbone":3,"underscore":5}],"movies2":[function(require,module,exports){
 module.exports=require('Muv5x+');
 },{}],3:[function(require,module,exports){
 //     Backbone.js 1.1.2
