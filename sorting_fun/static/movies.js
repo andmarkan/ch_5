@@ -1,25 +1,48 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"ty1Yww":[function(require,module,exports){
-  var Backbone = require('backbone');
-  var _ = require('underscore');
+var Backbone = require('backbone');
+var _ = require('underscore');
+var Movie = require('models/movie');
 
-  var MoviesByShowtime = Backbone.Collection.extend({
 
-     comparator: function(movie) {
-       return movie.get('showtime');
-     },
+var MoviesByShowtime = Backbone.Collection.extend({
 
-     log: function() {
-       _.each(this.toJSON(), function(movie) {
-         var showtime = new Date(movie.showtime * 1000);
-         console.log(movie.title + "   " + showtime.toLocaleString() + "(" + movie.showtime + ")");
-       });
-     }
-   })
-   module.exports = MoviesByShowtime;
+  model: Movie,
 
-},{"backbone":3,"underscore":5}],"movies":[function(require,module,exports){
+   comparator: function(m) {
+     return - m.toShowtimeDate();
+   },
+
+   log: function() {
+     console.log(this.models);
+     this.each(function(movie) {
+       console.log(movie.get('title') + "   " + movie.showtimeToString() + "(" + movie.get('showtime') + ")");
+     });
+   }
+ });
+
+ module.exports = MoviesByShowtime;
+
+},{"backbone":4,"models/movie":3,"underscore":6}],"movies":[function(require,module,exports){
 module.exports=require('ty1Yww');
 },{}],3:[function(require,module,exports){
+var Backbone = require('backbone');
+
+var Movie = Backbone.Model.extend({
+
+  toShowtimeDate: function() {
+     var d = new Date(0);
+     d.setUTCSeconds(this.get('showtime'));
+     return d;
+   },
+
+   showtimeToString: function() {
+     return this.toShowtimeDate().toLocaleString();
+   }
+
+});
+module.exports = Movie;
+
+},{"backbone":4}],4:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1629,7 +1652,7 @@ module.exports=require('ty1Yww');
 
 }));
 
-},{"underscore":4}],4:[function(require,module,exports){
+},{"underscore":5}],5:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -2974,6 +2997,6 @@ module.exports=require('ty1Yww');
   }
 }).call(this);
 
-},{}],5:[function(require,module,exports){
-module.exports=require(4)
+},{}],6:[function(require,module,exports){
+module.exports=require(5)
 },{}]},{},[])
