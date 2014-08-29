@@ -13,11 +13,11 @@ var Info = require('views/info');
 
 var Layout = Backbone.View.extend({
 
-  template: _.template('           \
+  template: _.template('\
              <header>   \
              <a href="#">Home</a>  \
                <nav id="controls"> \
-                 <p>Sort:</p> \
+                 <p>Page:</p> \
                  <button id="prev">Previous</button> \
                  <button id="next">Next</button> \
                  <p>Sort:</p> \
@@ -33,11 +33,11 @@ var Layout = Backbone.View.extend({
                    </input> \
                </nav> \
                <span id="info">  \
-               </span>               \
-             </header>            \
-             <div id="overview">  \
-             </div>               \
-             <div id="details">   \
+               </span>           \
+             </header>           \
+             <div id="overview"> \
+             </div>              \
+             <div id="details">  \
              </div>'),
 
     render: function() {

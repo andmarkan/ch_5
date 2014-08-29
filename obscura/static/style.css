@@ -59,3 +59,13 @@ nav > * {
 header {
   width: 900px;
 }
+
+nav buton {
+  width: 80px;
+}
+
+nav p {
+  text-align: right;
+  width: 80px;
+
+}
