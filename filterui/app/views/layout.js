@@ -1,5 +1,4 @@
 var Backbone = require('backbone');
-Backbone.XView = require('backbone.xview');
 var _ = require('underscore');
 
 var $ = Backbone.$;
@@ -10,7 +9,7 @@ var ChoseView = require('views/chose');
 var Controls = require('views/controls');
 var Info = require('views/info');
 
-var Layout = Backbone.XView.extend({
+var Layout = Backbone.View.extend({
 
   template: _.template('           \
              <header>   \
@@ -42,23 +41,23 @@ var Layout = Backbone.XView.extend({
              </div>'),
 
   setDetails: function(movie) {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new DetailsView({model: movie});
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new DetailsView({model: movie});
+    this.render();
   },
 
   setChose: function() {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new ChoseView();
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new ChoseView();
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(this.template());
+    this.currentDetails.setElement(this.$('#details')).render();
+    this.overview.setElement(this.$('#overview')).render();
+
+    return this;
   },
 
   onRender: function() {
@@ -67,13 +66,16 @@ var Layout = Backbone.XView.extend({
   },
   
   initialize: function(options) {
-    this.addView('#overview', new MoviesList({
-      collection: options.router.movies,
-      router: options.router
-    }));
     var superset = new Backbone.Collection(options.router.movies.models);
+    this.overview = new MoviesList({
+       el: options.el,
+       collection: options.collection,
+       router: options.router
+    });
     this.controls = new Controls({ collection: options.router.movies, superset: superset });
     this.info = new Info({collection: this.collection});
+
+     this.currentDetails = new ChoseView();
   }
 
 });

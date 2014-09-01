@@ -9,7 +9,7 @@ var DetailsView = require('views/details');
 var ChoseView = require('views/chose');
 var Controls = require('views/sort');
 
-var Layout = Backbone.XView.extend({
+var Layout = Backbone.View.extend({
 
   template: _.template('           \
              <a href="#">Home</a>  \
@@ -54,6 +54,11 @@ var Layout = Backbone.XView.extend({
       router: options.router
     }));
     this.controls = new Controls({ collection: options.router.movies });
+  },
+
+  render: function() {
+    this.$el.html(this.template());
+    return this;
   }
 
 });
