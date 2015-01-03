@@ -1,11 +1,30 @@
 <html>
   <head>
-    <script src="/bundle.js"></script>
+    <script src="movies.js"></script>
+    <script src="data.js"></script>
     <link rel="stylesheet" href="/style.css" type="text/css"> 
   </head>
 <body>
-<header> 
-<div id="movies">
-</div>
+
+<header>
+  <a href="/references">Back to examples</a>
+</header>
+
+<p>New movie instances can be created in the development console with:</p>
+<code>
+	var moviesByShowtime = new Movies(raw);
+</code>
+
+<p>You can then call the sort functions, and output the state of the collection with:</p>
+
+<code>
+	moviesByShowtime.log();
+</code>
+
+<script>
+  Movies = require('movies');
+  raw = require('raw');
+</script>
+
 </body>
 </html>

@@ -3,7 +3,21 @@ var Movie = require('models/movie');
 var _ = require('underscore');
 
 var Movies = Backbone.Collection.extend({
+
   model: Movie,
+
+  comparator: function(m) {
+    return -m.toShowtimeDate();
+  },
+
+  log: function() {
+     console.log(this.models);
+     this.each(function(movie) {
+       console.log(movie.get('title') + " " 
+	       + movie.showtimeToString() + " "
+	       + "(" + movie.get('showtime') + ")");
+     });
+  },
 
   getSelected: function() {
     return this.pluck('selected').indexOf(true);
