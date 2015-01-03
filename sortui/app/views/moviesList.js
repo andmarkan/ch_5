@@ -1,6 +1,3 @@
-var Backbone = require('backbone');
-var _ = require('underscore');
-
 var MovieView = require('views/movie');
 var MoviesList = Backbone.View.extend({
 

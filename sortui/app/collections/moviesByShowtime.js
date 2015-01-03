@@ -6,12 +6,12 @@ var Movies = Backbone.Collection.extend({
 
   model: Movie,
 
-  comparator: function(m) {
-    return -m.toShowtimeDate();
-  },
+  // comparator: function(m) {
+  //  return -m.toShowtimeDate();
+  // },
 
   log: function() {
-     console.log(this.models);
+     console.log(this.first().get('title'));
      this.each(function(movie) {
        console.log(movie.get('title') + " " 
 	       + movie.showtimeToString() + " "

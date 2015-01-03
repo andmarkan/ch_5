@@ -1,7 +1,3 @@
-var Backbone = require('backbone');
-var _ = require('underscore');
-Backbone.XView = require('backbone.xview');
-
 var SortView = Backbone.View.extend({
 
    events: {

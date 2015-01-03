@@ -1,7 +1,3 @@
-var Backbone = require('backbone');
-var $ = require('jquery-untouched');
-var _ = require('underscore');
-
 var MovieView = Backbone.View.extend({
   tagName: 'article',
   className: 'movie',
@@ -12,7 +8,6 @@ var MovieView = Backbone.View.extend({
   },
 
   selectMovie: function(ev) {
-    // console.log($(ev.currentTarget).html());
     console.log('event on ' + this.model.id);
     if (!this.model.get('selected')) {
       this.router.navigate("/movies/" + this.model.id, {trigger: true});

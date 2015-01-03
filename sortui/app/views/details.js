@@ -1,5 +1,3 @@
-  var Backbone = require('backbone');
-  var _ = require('underscore');
   var moment = require('moment');
   
   var DetailsView = Backbone.View.extend({

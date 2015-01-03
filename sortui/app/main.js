@@ -4,12 +4,5 @@ Backbone.$ = $;
 
 var MoviesRouter = require('routers/movies');
 
-$(document).ready(function() {
-  console.log('init');
-  var router = new MoviesRouter({el: $('#movies') });
-  Backbone.history.start({
-    pushState: false,
-    root: '/'
-  });
-});
+module.exports = { Backbone: Backbone, MoviesRouter: MoviesRouter }
 

@@ -1,5 +1,3 @@
-var Backbone = require('backbone');
-
 var ChoseView = Backbone.View.extend({
 
   template: '<h1>Welcome to Munich Cinema</h1>\

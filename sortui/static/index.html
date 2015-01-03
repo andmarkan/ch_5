@@ -1,7 +1,15 @@
 <html>
   <head>
+    <!-- for the console part -->
     <script src="movies.js"></script>
     <script src="data.js"></script>
+
+    <!-- for the UI part -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="router.js"></script>
+
     <link rel="stylesheet" href="/style.css" type="text/css"> 
   </head>
 <body>
@@ -10,7 +18,20 @@
   <a href="/references">Back to examples</a>
 </header>
 
-<p>New movie instances can be created in the development console with:</p>
+<h1>About</h1>
+
+<p>In this example, you can sort movies on different parameters.</p>
+
+<h1>From the console</h1>
+
+<p>You can access the movies from the console with:</p>
+
+<code>
+	movies;
+</code>
+
+Or, create new movies instances:
+
 <code>
 	var moviesByShowtime = new Movies(raw);
 </code>
@@ -18,12 +39,44 @@
 <p>You can then call the sort functions, and output the state of the collection with:</p>
 
 <code>
-	moviesByShowtime.log();
+	movies.log();
+
+	// first, you can compute a new order with
+	movies.sortByTitle();
+
+	// to set the new order, combine the sort with a reset:
+	movies.reset(movies.sortByTitle());
+
+	// other sorting e.g.
+	movies.reset(movies.sortByShowtime())
 </code>
 
+<h1>From a UI</h1>
+
+<p>The same collection can be sorted with a UI</p>
+
+<div id="movies">
+</div>
+
+<!-- this is for the console part -->
 <script>
-  Movies = require('movies');
-  raw = require('raw');
+  var Movies = require('movies');
+  var raw = require('raw');
+  var movies = new Movies(raw);
+</script>
+
+<!-- this loads the UI and needs Backbone and jQuery -->
+<script>
+  Backbone.$ = $;
+  var MoviesRouter = require('router');
+  $(document).ready(function() {
+    console.log('init');
+    var router = new MoviesRouter({el: $('#movies'), movies: movies });
+    Backbone.history.start({
+      pushState: false,
+      root: '/'
+    });
+  });
 </script>
 
 </body>
