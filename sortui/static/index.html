@@ -20,7 +20,7 @@
 
 <h1>About</h1>
 
-<p>In this example, you can sort movies on different parameters.</p>
+<p>In this example, you can sort movies on different parameters: Title, Showtime and Rating</p>
 
 <h1>From the console</h1>
 
@@ -40,14 +40,22 @@ Or, create new movies instances:
 
 <code>
 	movies.log();
+</code>
 
-	// first, you can compute a new order with
+First, you can compute a new order with
+
+<code>
 	movies.sortByTitle();
+</code>
 
-	// to set the new order, combine the sort with a reset:
+To set the new order, combine the sort with a reset:
+
+<code>
 	movies.reset(movies.sortByTitle());
+</code>
 
-	// other sorting e.g.
+To sort by Showtime, you can try:
+<code>
 	movies.reset(movies.sortByShowtime())
 </code>
 
