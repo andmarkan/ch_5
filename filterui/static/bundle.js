@@ -134,11 +134,34 @@ Backbone.XView = require('backbone.xview');
 
 var ControlsView = Backbone.View.extend({
 
+  template: _.template('  \
+                 <p>Sort:</p> \
+                 <button id="by_title">By Title</button>  \
+                 <button id="by_rating">By Rating</button>\
+                 <button id="by_showtime">By Showtime</button> \
+                 <p>Filter</p> \
+                 <select name="genre"> \
+                   <option value="all"> \
+                     All \
+                   </option> \
+                   <option value="Drama"> \
+                     Drama \
+                   </option> \
+                   <option value="Action"> \
+                     Action \
+                   </option> \
+                 </select>'),
+
   events: {
      'click #by_title': 'sortByTitle',
      'click #by_rating': 'sortByRating',
      'click #by_showtime': 'sortByShowtime',
      'change select[name="genre"]': 'selectGenre'
+  },
+
+  render: function() {
+    this.$el.html(this.template());
+    return this;
   },
 
   selectGenre: function(ev) {
@@ -180,27 +203,26 @@ var ControlsView = Backbone.View.extend({
 module.exports = ControlsView;
 
 },{"backbone":14,"backbone.xview":13,"underscore":17}],7:[function(require,module,exports){
-  var Backbone = require('backbone');
-  var _ = require('underscore');
-  var moment = require('moment');
-  
-  var DetailsView = Backbone.View.extend({
-    el: '#details',
+var Backbone = require('backbone');
+var _ = require('underscore');
+var moment = require('moment');
 
-    template: _.template('<h1><%= showtimeFormatted %> - <%= title %> </h1>\
-                         <br><br> <%= description %>'),
+var DetailsView = Backbone.View.extend({
+  el: '#details',
 
-    render: function() {
-      var showtime = moment(showtime).format("DD-MMMM HH:MM");
-      var data = _.extend(this.model.toJSON(), {showtimeFormatted: showtime});
-      this.$el.html(this.template(data));
-      return this;
-    }
-  });
-  module.exports = DetailsView;
+  template: _.template('<h1><%= showtimeFormatted %> - <%= title %> </h1>\
+                       <br><br> <%= description %>'),
+
+  render: function() {
+    var showtime = moment(this.model.get('showtime'), 'X').format("DD-MMMM HH:MM");
+    var data = _.extend(this.model.toJSON(), {showtimeFormatted: showtime});
+    this.$el.html(this.template(data));
+    return this;
+  }
+});
+module.exports = DetailsView;
 
 },{"backbone":14,"moment":16,"underscore":17}],8:[function(require,module,exports){
-
 var Backbone = require('backbone');
 var _ = require('underscore');
 
@@ -218,7 +240,6 @@ module.exports = Info;
 
 },{"backbone":14,"underscore":17}],9:[function(require,module,exports){
 var Backbone = require('backbone');
-Backbone.XView = require('backbone.xview');
 var _ = require('underscore');
 
 var $ = Backbone.$;
@@ -229,55 +250,41 @@ var ChoseView = require('views/chose');
 var Controls = require('views/controls');
 var Info = require('views/info');
 
-var Layout = Backbone.XView.extend({
+var Layout = Backbone.View.extend({
 
   template: _.template('           \
-             <header>   \
+             <header>              \
              <a href="#">Home</a>  \
                <nav id="controls"> \
-                 <p>Sort:</p> \
-                 <button id="by_title">By Title</button>  \
-                 <button id="by_rating">By Rating</button>\
-                 <button id="by_showtime">By Showtime</button> \
-                 <p>Filter</p> \
-                 <select name="genre"> \
-                   <option value="all"> \
-                     All \
-                   </option> \
-                   <option value="Drama"> \
-                     Drama \
-                   </option> \
-                   <option value="Action"> \
-                     Action \
-                   </option> \
-                 </select> \
-               </nav> \
-               <span id="info">  \
-               </span>               \
-             </header>            \
-             <div id="overview">  \
-             </div>               \
-             <div id="details">   \
+               </nav>              \
+               <span id="info">    \
+               </span>             \
+             </header>             \
+             <div id="overview">   \
+             </div>                \
+             <div id="details">    \
              </div>'),
 
   setDetails: function(movie) {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new DetailsView({model: movie});
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new DetailsView({model: movie});
+    this.render();
   },
 
   setChose: function() {
-    if (this.currentDetails) {
-      this.removeView(this.currentDetails);
-      this.render();
-    }
-    var view = new ChoseView();
-    this.addView('#details', {id: view.cid}, view);
-    this.currentDetails = view.cid;
+    if (this.currentDetails) this.currentDetails.remove();
+    this.currentDetails = new ChoseView();
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(this.template());
+    this.controls.setElement(this.$('#controls')).render();
+    this.info.setElement(this.$('#info')).render();
+    this.currentDetails.setElement(this.$('#details')).render();
+    this.overview.setElement(this.$('#overview')).render();
+
+    return this;
   },
 
   onRender: function() {
@@ -286,15 +293,16 @@ var Layout = Backbone.XView.extend({
   },
   
   initialize: function(options) {
-    console.log("*******");
-    this.addView('#overview', new MoviesList({
-      collection: options.router.movies,
-      router: options.router
-    }));
     var superset = new Backbone.Collection(options.router.movies.models);
-    console.log(superset);
+    this.overview = new MoviesList({
+       el: options.el,
+       collection: options.collection,
+       router: options.router
+    });
     this.controls = new Controls({ collection: options.router.movies, superset: superset });
-    this.info = new Info({collection: this.collection});
+    this.info = new Info({collection: options.router.movies});
+
+     this.currentDetails = new ChoseView();
   }
 
 });
@@ -312,7 +320,7 @@ Layout.getInstance = function(options) {
 }
 module.exports = Layout;
 
-},{"backbone":14,"backbone.xview":13,"underscore":17,"views/chose":5,"views/controls":6,"views/details":7,"views/info":8,"views/moviesList":11}],10:[function(require,module,exports){
+},{"backbone":14,"underscore":17,"views/chose":5,"views/controls":6,"views/details":7,"views/info":8,"views/moviesList":11}],10:[function(require,module,exports){
 var Backbone = require('backbone');
 var $ = require('jquery-untouched');
 var _ = require('underscore');

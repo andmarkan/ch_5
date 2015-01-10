@@ -12,32 +12,16 @@ var Info = require('views/info');
 var Layout = Backbone.View.extend({
 
   template: _.template('           \
-             <header>   \
+             <header>              \
              <a href="#">Home</a>  \
                <nav id="controls"> \
-                 <p>Sort:</p> \
-                 <button id="by_title">By Title</button>  \
-                 <button id="by_rating">By Rating</button>\
-                 <button id="by_showtime">By Showtime</button> \
-                 <p>Filter</p> \
-                 <select name="genre"> \
-                   <option value="all"> \
-                     All \
-                   </option> \
-                   <option value="Drama"> \
-                     Drama \
-                   </option> \
-                   <option value="Action"> \
-                     Action \
-                   </option> \
-                 </select> \
-               </nav> \
-               <span id="info">  \
-               </span>               \
-             </header>            \
-             <div id="overview">  \
-             </div>               \
-             <div id="details">   \
+               </nav>              \
+               <span id="info">    \
+               </span>             \
+             </header>             \
+             <div id="overview">   \
+             </div>                \
+             <div id="details">    \
              </div>'),
 
   setDetails: function(movie) {
@@ -54,6 +38,8 @@ var Layout = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template());
+    this.controls.setElement(this.$('#controls')).render();
+    this.info.setElement(this.$('#info')).render();
     this.currentDetails.setElement(this.$('#details')).render();
     this.overview.setElement(this.$('#overview')).render();
 
@@ -73,7 +59,7 @@ var Layout = Backbone.View.extend({
        router: options.router
     });
     this.controls = new Controls({ collection: options.router.movies, superset: superset });
-    this.info = new Info({collection: this.collection});
+    this.info = new Info({collection: options.router.movies});
 
      this.currentDetails = new ChoseView();
   }

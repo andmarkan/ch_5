@@ -5,11 +5,34 @@ Backbone.XView = require('backbone.xview');
 
 var ControlsView = Backbone.View.extend({
 
+  template: _.template('  \
+                 <p>Sort:</p> \
+                 <button id="by_title">By Title</button>  \
+                 <button id="by_rating">By Rating</button>\
+                 <button id="by_showtime">By Showtime</button> \
+                 <p>Filter</p> \
+                 <select name="genre"> \
+                   <option value="all"> \
+                     All \
+                   </option> \
+                   <option value="Drama"> \
+                     Drama \
+                   </option> \
+                   <option value="Action"> \
+                     Action \
+                   </option> \
+                 </select>'),
+
   events: {
      'click #by_title': 'sortByTitle',
      'click #by_rating': 'sortByRating',
      'click #by_showtime': 'sortByShowtime',
      'change select[name="genre"]': 'selectGenre'
+  },
+
+  render: function() {
+    this.$el.html(this.template());
+    return this;
   },
 
   selectGenre: function(ev) {
