@@ -46,11 +46,6 @@ var Layout = Backbone.View.extend({
     return this;
   },
 
-  onRender: function() {
-    this.controls.setElement($('#controls'));
-    $('#info').append(this.info.render().el);
-  },
-  
   initialize: function(options) {
     var superset = new Backbone.Collection(options.router.movies.models);
     this.overview = new MoviesList({
