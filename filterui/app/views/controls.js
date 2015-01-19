@@ -52,7 +52,6 @@ var ControlsView = Backbone.View.extend({
      var filtered = this.superset.filter(function(m) { 
        return (_.indexOf(m.get('genres'), genre) !== -1)
      });
-     
      this.movies.reset(filtered);
   },
 
