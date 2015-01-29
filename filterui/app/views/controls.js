@@ -39,19 +39,20 @@ var ControlsView = Backbone.View.extend({
     var genre = $("select[name='genre']").val();
     var that = this;
     if (genre === "all") {
-      that.collection.reset(that.superset.toJSON());
+      that.movies.reset(that.superset.toJSON());
     }
     else {
-      that.collection.reset(that.superset.toJSON());
+      // remove operation that causes unecessary rendering
       this.filterByCategory(genre);
     }
   },
 
   filterByCategory: function(genre) {
-     var filtered = this.movies.filter(function(m) { 
+    // since we need an untouched collection, we can use the superset
+     var filtered = this.superset.filter(function(m) { 
        return (_.indexOf(m.get('genres'), genre) !== -1)
      });
-     this.collection.reset(filtered);
+     this.movies.reset(filtered);
   },
 
   sortByTitle: function(ev) {
